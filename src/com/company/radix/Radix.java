@@ -21,11 +21,11 @@ public class Radix {
             order[i] = new Queue<>();
         }
 
-        int maxLevel = getGreatNumberDigitCount(arr);
+        int maxLevel = getGreatNumberDigitCount(arr);//***
 
-        for (int iteration = 1; iteration <= maxLevel; iteration++) {
+        for (int iteration = 1; iteration <= maxLevel; iteration++) {//[705, 24, 405, 0]
 
-            for (int i = 0; i < arr.length; i++) {
+            for (int i = 0; i < arr.length; i++) {// Queue[0] =0, Queue[4]=24, Queue[5]=705,45
                 order[getDigit(arr[i], iteration)].push(arr[i]);
             }
 
@@ -45,11 +45,11 @@ public class Radix {
     }
 
 
-    public static int getDigit(int num, int k) {
-        for (int i = 0; i < k - 1; i++) {
-            num /= 10;
+    public static int getDigit(int num, int k) {//705
+        for (int i = 0; i < 0; i++) {//1
+            num /= 10;//705/10 =70.5 num=70
         }
-        return num % 10;
+        return num % 10; //705/10=5
     }
 
     public static void printArray(int[] arr) {
@@ -60,10 +60,10 @@ public class Radix {
     }
 
     public static int getGreatNumberDigitCount(int[] arr) {
-        int max = arr[0];
-        for (int i = 1; i < arr.length; i++) {
+        int max = arr[0];//705
+        for (int i = 1; i < arr.length; i++) {// [ 45, 705, 0, 108]
             if (arr[i] > max) {
-                max = arr[i];
+                max = arr[i];//705
             }
         }
 

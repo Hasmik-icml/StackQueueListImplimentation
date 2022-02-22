@@ -6,7 +6,7 @@ import java.util.Iterator;
 import java.util.Spliterator;
 import java.util.function.Consumer;
 
-public class List <Type> implements Iterable {
+public class List <Type> {
     private Node<Type> first;
     private  Node <Type> last;
     private int size;
@@ -45,6 +45,26 @@ public class List <Type> implements Iterable {
         }
         size++;
     }
+
+    public void push(int index, Type data) {
+       if (index < 0){
+           throw new RuntimeException("index out of bound exception");
+       } else if (index > size || size == 0){
+           push(data);
+       } else if (size != 0 && index < size) {
+           Node<Type> temp = first;
+           for(int i = 0; i < index-1; i++){
+               if (temp.getNext() != null){
+                   temp = temp.getNext();
+               }
+           }
+           Node<Type> node = new Node<>(data, temp, temp.getNext());
+           temp.getNext().setPrev(node);
+           temp.setNext(node);
+           size++;
+       }
+    }
+
     public Type pop() {
         if (size == 0) {
             throw new RuntimeException("massege this is error");
@@ -61,15 +81,25 @@ public class List <Type> implements Iterable {
             size--;
             return temp.getInfo();
         }
-    }                                // 0 1 2 3 4
-//    public Type remove(int index) { // {5,7,8,0,14}
-//        if (index < 0 || index >= size || size == 0) {
-//            throw new RuntimeException("massege this is error");
-//        } else {
-//
-//
-//        }
-//    }
+    }                                // 0 1  2 3 4 5                      0 1 2 3  4
+    public void remove(int index) { //                       {5,7,-1,8,0,14}
+        if (index < 0 || index >= size || size == 0) {//       8.prev.next =8.next    8.next.prev = 8.prev
+            throw new RuntimeException("index out of bound exception");//
+        } else {
+            Node<Type> temp = first;
+            for(int i = 0; i < index; i++){//2
+                if (temp.getNext() != null){
+                    temp = temp.getNext();
+                }
+            }
+            temp.getPrev().setNext(temp.getNext());
+            temp.getNext().setPrev(temp.getPrev());
+            temp.setPrev(null);
+            temp.setNext(null);
+            size--;
+        }
+
+    }
 
     @Override
     public String toString() {
@@ -98,20 +128,4 @@ public class List <Type> implements Iterable {
         return s.toString();
     }
 
-
-    @Override
-    public Iterator iterator() {
-
-        return null;
-    }
-
-    @Override
-    public void forEach(Consumer action) {
-        Iterable.super.forEach(action);
-    }
-
-    @Override
-    public Spliterator spliterator() {
-        return Iterable.super.spliterator();
-    }
 }
